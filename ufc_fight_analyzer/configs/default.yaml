@@ -1,5 +1,4 @@
-# configs/default.yaml
-
-model_path: "yolov8n.pt"      # YOLOv8 model to use (n, s, m, l, x)
-confidence_threshold: 0.5     # Minimum confidence for detection
-nms_threshold: 0.45           # Non-Max Suppression threshold
+model_path: "yolo11n.pt"
+confidence_threshold: 0.3
+iou_threshold: 0.5
+tracker: "bytetrack.yaml"  # Options: "bytetrack.yaml", "botsort.yaml"
