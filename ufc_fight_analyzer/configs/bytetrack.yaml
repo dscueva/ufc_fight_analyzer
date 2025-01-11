@@ -1,0 +1,10 @@
+# ufc_fight_analyzer/configs/bytetrack.yaml
+
+tracker:
+  type: "bytetrack"
+  params:
+    track_thresh: 0.3
+    match_thresh: 0.8
+    aspect_ratio_thresh: 3.0
+    min_box_area: 10
+    mot20: False

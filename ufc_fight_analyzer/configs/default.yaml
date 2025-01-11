@@ -1,4 +1,8 @@
-model_path: "yolo11n.pt"
+# ufc_fight_analyzer/configs/default.yaml
+
+model_path: "yolo11n-pose.pt"          # Switch to the pose-capable YOLO model
 confidence_threshold: 0.3
 iou_threshold: 0.5
-tracker: "bytetrack.yaml"  # Options: "bytetrack.yaml", "botsort.yaml"
+tracker: "bytetrack.yaml"             # Options: "bytetrack.yaml", "botsort.yaml"
+pose_estimation: true                 # Enable pose estimation
+keypoint_conf_threshold: 0.3        # Confidence threshold for keypoints
