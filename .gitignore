@@ -1,4 +1,21 @@
-yolov8n.pt
+# Ignore compiled files
 __pycache__/
+*.py[cod]
+
+# Ignore virtual environments
 .venv/
-ufc_fights/*.mp4
+
+# Ignore model files
+*.pt
+
+# Ignore all MP4 files
+*.mp4
+
+# Ignore specific directories containing MP4 files
+ufc_fights/
+clips/
+clips copy/
+organized_clips/
+
+# Optionally ignore generated datasets
+extracted_dataset/

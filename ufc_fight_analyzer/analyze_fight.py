@@ -45,12 +45,16 @@ def process_video(model: YOLO, video_path: str, tracker_type: str, conf_threshol
     if not cap.isOpened():
         print(f"Error opening video: {video_path}")
         return
+
     processing_times = []
+    frame_count = 0  # Frame counter
+
     while True:
         ret, frame = cap.read()
         if not ret:
             break
-        
+
+        frame_count += 1
         start_time = cv2.getTickCount() / cv2.getTickFrequency()
         results = model.track(
             frame, 
@@ -67,6 +71,18 @@ def process_video(model: YOLO, video_path: str, tracker_type: str, conf_threshol
         avg_processing_time = np.mean(processing_times)
         fps = 1000 / avg_processing_time if avg_processing_time > 0 else 0
 
+        # Extract and print keypoints for each frame
+        if hasattr(results[0], 'keypoints') and results[0].keypoints is not None:
+            keypoints_data = results[0].keypoints.xy.cpu().numpy() if hasattr(results[0].keypoints, 'cpu') else results[0].keypoints.xy
+            normalized_keypoints = keypoints_data.flatten() / frame.shape[1]
+
+            print(f"Frame {frame_count}: Keypoints data:")
+            print(normalized_keypoints)
+            print("-" * 50)
+        else:
+            print(f"Frame {frame_count}: No keypoints detected.")
+
+        # Annotate and display the frame
         annotated_frame = results[0].plot()
         cv2.putText(annotated_frame,
                     f"Inference: {avg_processing_time:.1f}ms ({fps:.1f} FPS)",
@@ -75,9 +91,8 @@ def process_video(model: YOLO, video_path: str, tracker_type: str, conf_threshol
                     0.7,
                     (0, 0, 255),
                     2)
-        
         cv2.imshow("UFC Fight Analysis - Detection + Tracking + Pose", annotated_frame)
-        
+
         # Wait 10ms and check if 'q' or 'Esc' is pressed
         key = cv2.waitKey(10) & 0xFF
         if key in [ord('q'), 27]:
